@@ -1,3 +1,4 @@
+import os
 import asyncio
 from datetime import datetime
 from bleak import BleakScanner
@@ -15,9 +16,10 @@ TILT_UUIDS = {
 
 LOG_FILE = "tilt_log.csv"
 
-# Write header to file if it doesn't exist
-with open(LOG_FILE, "a") as f:
-    f.write("Timestamp,Color,Temp_C,Gravity,Device_Address\n")
+# Only write header if the file does not exist
+if not os.path.exists(LOG_FILE):
+    with open(LOG_FILE, "a") as f:
+        f.write("Timestamp,Color,Temp_C,Gravity,Device_Address\n")
 
 def decode_tilt(data):
     uuid = data[2:18].hex()
